@@ -28,7 +28,7 @@
   }
 
   .hero {
-    background-image: linear-gradient(rgba(134, 22, 115, 0.8), rgba(159, 64, 144, 0.8)), url('back.png');
+    background-image: linear-gradient(rgba(134, 22, 115, 0.8), rgba(159, 64, 144, 0.8));
     background-size: cover;
     background-position: center;
     min-height: 100vh;
