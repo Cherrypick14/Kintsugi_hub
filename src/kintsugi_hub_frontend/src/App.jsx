@@ -6,6 +6,7 @@ import StatisticsSection from './pages/Statistics';
 import Form from './pages/Form';
 import Login from './pages/Login';
 import ProtectedRoute from './components/Protectedroute';
+import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
 
@@ -17,7 +18,7 @@ function App() {
         <Route path="/statistics" element={<StatisticsSection />} />
         <Route path='/form' element={<Form />}/>
         <Route path='/login' element={<Login />}/>
-        <ProtectedRoute path="/admin" component={AdminDashboard} />
+        <ProtectedRoute path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
     
