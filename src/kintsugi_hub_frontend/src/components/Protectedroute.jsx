@@ -1,20 +1,13 @@
-// src/components/ProtectedRoute.jsx
 import React from 'react';
-import { Route, Redirect } from 'react-router-dom';
+import { Route, Navigate } from 'react-router-dom';
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const ProtectedRoute = ({ element: Element, ...rest }) => {
   const isAuthenticated = Boolean(window.localStorage.getItem('identity'));
 
   return (
     <Route
       {...rest}
-      render={(props) =>
-        isAuthenticated ? (
-          <Component {...props} />
-        ) : (
-          <Redirect to="/login" />
-        )
-      }
+      element={isAuthenticated ? <Element /> : <Navigate to="/login" />}
     />
   );
 };
