@@ -16,6 +16,7 @@
     "src/kintsugi_hub_frontend"
   ],
   "dependencies": {
+    "@dfinity/candid": "^2.0.0",
     "autoprefixer": "^10.4.20",
     "postcss": "^8.4.41",
     "react-router-dom": "^6.26.1",
