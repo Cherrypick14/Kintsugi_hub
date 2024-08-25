@@ -4,6 +4,8 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import StatisticsSection from './pages/Statistics';
 import Form from './pages/Form';
+import Login from './pages/Login';
+import ProtectedRoute from './components/Protectedroute';
 
 function App() {
 
@@ -14,6 +16,8 @@ function App() {
         <Route path='/' element ={<Home />} />
         <Route path="/statistics" element={<StatisticsSection />} />
         <Route path='/form' element={<Form />}/>
+        <Route path='/login' element={<Login />}/>
+        <ProtectedRoute path="/admin" component={AdminDashboard} />
       </Routes>
     </Router>
     
