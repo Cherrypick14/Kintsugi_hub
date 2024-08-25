@@ -1,10 +1,15 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend'; // Import your backend declarations
 
 import '../styles/styles.css';
 
 const Form = () => {
+  // State to manage success and error messages
+  const [message, setMessage] = useState('');
+  const [isSuccess, setIsSuccess] = useState(false);
+
   // Define the formik instance
   const formik = useFormik({
     initialValues: {
@@ -20,9 +25,31 @@ const Form = () => {
       date: Yup.string().required('Date is required'),
       location: Yup.string().required('Location is required'),
     }),
-    onSubmit: values => {
-      console.log('Form data:', values);
-      // Handle form submission here, e.g., send to backend
+    onSubmit: async values => {
+      try {
+        const response = await kintsugi_hub_backend.create_report(
+          values.incident_type,
+          values.description,
+          values.date,
+          values.location
+        );
+        console.log('Report created with ID:', response.toString());
+        
+        // Set success message
+        setMessage('Report submitted successfully!');
+        setIsSuccess(true);
+        
+        // Optionally, reset the form
+        formik.resetForm();
+        
+        // Redirect or other actions if needed
+      } catch (error) {
+        console.error('Error creating report:', error);
+        
+        // Set error message
+        setMessage('Failed to submit report. Please try again.');
+        setIsSuccess(false);
+      }
     },
   });
 
@@ -97,6 +124,13 @@ const Form = () => {
 
           <button type="submit" className="submit-button">Send</button>
         </form>
+
+        {/* Display success or error message */}
+        {message && (
+          <div className={`notification ${isSuccess ? 'success' : 'error'}`}>
+            {message}
+          </div>
+        )}
       </section>
     </div>
   );
