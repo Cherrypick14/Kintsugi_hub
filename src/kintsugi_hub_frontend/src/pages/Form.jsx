@@ -1,19 +1,16 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend'; // Import your backend declarations
+import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
 
 import '../styles/styles.css';
 
 const Form = () => {
-  // State to manage success and error messages
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
 
-  // Define the formik instance
   const formik = useFormik({
     initialValues: {
-      id: '', // Assuming this could be auto-generated or filled later
       incident_type: '',
       description: '',
       date: '',
@@ -33,22 +30,33 @@ const Form = () => {
           values.date,
           values.location
         );
+
         console.log('Report created with ID:', response.toString());
-        
-        // Set success message
+
+        // Show success message
         setMessage('Report submitted successfully!');
         setIsSuccess(true);
-        
-        // Optionally, reset the form
+
+        // Clear the message after 3 seconds
+        setTimeout(() => {
+          setMessage('');
+          setIsSuccess(false);
+        }, 3000);
+
+        // Optionally reset the form or redirect
         formik.resetForm();
-        
-        // Redirect or other actions if needed
       } catch (error) {
         console.error('Error creating report:', error);
         
-        // Set error message
+        // Show error message
         setMessage('Failed to submit report. Please try again.');
         setIsSuccess(false);
+
+        // Clear the error message after 3 seconds
+        setTimeout(() => {
+          setMessage('');
+          setIsSuccess(false);
+        }, 3000);
       }
     },
   });
@@ -123,14 +131,14 @@ const Form = () => {
           </div>
 
           <button type="submit" className="submit-button">Send</button>
-        </form>
 
-        {/* Display success or error message */}
-        {message && (
-          <div className={`notification ${isSuccess ? 'success' : 'error'}`}>
-            {message}
-          </div>
-        )}
+          {/* Display message */}
+          {message && (
+            <div className={`notification ${isSuccess ? 'success' : 'error'}`}>
+              {message}
+            </div>
+          )}
+        </form>
       </section>
     </div>
   );
