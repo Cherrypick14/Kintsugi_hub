@@ -1,16 +1,20 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
+import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend'; // Import your backend declarations
 
 import '../styles/styles.css';
 
 const Form = () => {
+  // State to manage success and error messages
+
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-
+  
+  // Define the formik instance
   const formik = useFormik({
     initialValues: {
+      id: '', // Assuming this could be auto-generated or filled later
       incident_type: '',
       description: '',
       date: '',
@@ -45,6 +49,7 @@ const Form = () => {
 
         // Optionally reset the form or redirect
         formik.resetForm();
+      
       } catch (error) {
         console.error('Error creating report:', error);
         
@@ -132,7 +137,7 @@ const Form = () => {
 
           <button type="submit" className="submit-button">Send</button>
 
-          {/* Display message */}
+          {/* Display success or error message */}
           {message && (
             <div className={`notification ${isSuccess ? 'success' : 'error'}`}>
               {message}
