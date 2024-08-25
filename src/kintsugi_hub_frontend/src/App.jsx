@@ -5,7 +5,7 @@ import Home from './pages/Home';
 import StatisticsSection from './pages/Statistics';
 import Form from './pages/Form';
 import Login from './pages/Login';
-import ProtectedRoute from './components/Protectedroute';
+// import ProtectedRoute from './components/Protectedroute';
 import AdminDashboard from './pages/AdminDashboard';
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
         <Route path="/statistics" element={<StatisticsSection />} />
         <Route path='/form' element={<Form />}/>
         <Route path='/login' element={<Login />}/>
-        <ProtectedRoute path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin" element={<AdminDashboard />} />
       </Routes>
     </Router>
     
