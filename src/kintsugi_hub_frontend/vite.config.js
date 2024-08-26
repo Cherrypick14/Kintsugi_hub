@@ -24,9 +24,7 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
-    headers: {
-      'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://identity.ic0.app; object-src 'self';",
-    },
+   
   },
   plugins: [
     react(),
