@@ -3,12 +3,16 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import environment from 'vite-plugin-environment';
 import dotenv from 'dotenv';
+import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 dotenv.config({ path: '../../.env' });
 
 export default defineConfig({
   build: {
     emptyOutDir: true,
+    rollupOptions: {
+      plugins: [nodeResolve()],
+    },
   },
   optimizeDeps: {
     esbuildOptions: {
@@ -24,7 +28,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
-   
+    headers: {
+      'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://identity.ic0.app; object-src 'self';",
+    },
   },
   plugins: [
     react(),
