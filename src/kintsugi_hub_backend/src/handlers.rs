@@ -48,6 +48,22 @@ fn delete_report(id: Nat) -> Result<(), String> {
     }
 }
 
+#[update]
+fn update_status(id: Nat, status: String) -> Result<(), String> {
+    let id_biguint = id.0;
+    let id_u64 = id_biguint.to_u64().ok_or("Failed to convert ID")?;
+    
+    REPORTS.with(|reports| {
+        let mut reports = reports.borrow_mut();
+        if let Some(report) = reports.iter_mut().find(|r| r.id == id) {
+            report.status = status;
+            Ok(())
+        } else {
+            Err("Report not found".into())
+        }
+    })
+}
+
 
 
 

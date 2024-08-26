@@ -6,6 +6,7 @@ type Report = record {
   description : text;
   date : text;
   location : text;
+  status : opt text; 
 };
 
 service : {
@@ -14,4 +15,5 @@ service : {
   fetch_reports_handler : () -> (vec Report);
   update_report : (nat, text, text, text, text) -> (Result);
   delete_report : (nat) -> (Result);
+  update_status : (nat, text) -> (Result);
 };

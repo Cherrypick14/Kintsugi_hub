@@ -1,130 +1,110 @@
-// src/pages/AdminDashboard.jsx
 import React, { useState, useEffect } from 'react';
 import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
+import '../styles/admin.css'; 
 
 const AdminDashboard = () => {
   const [reports, setReports] = useState([]);
-  const [selectedReport, setSelectedReport] = useState(null);
+  const [groupedReports, setGroupedReports] = useState({});
 
   useEffect(() => {
     const fetchReports = async () => {
       try {
-        const fetchedReports = await kintsugi_hub_backend.fetch_reports();
+        const fetchedReports = await kintsugi_hub_backend.fetch_reports_handler();
         setReports(fetchedReports);
+        groupReportsByPriority(fetchedReports);
       } catch (error) {
         console.error('Error fetching reports:', error);
       }
     };
+
     fetchReports();
   }, []);
 
-  const handleUpdatePriority = async (id, priority) => {
+  const groupReportsByPriority = (reports) => {
+    const grouped = reports.reduce((acc, report) => {
+      const priority = report.priority;
+      if (!acc[priority]) {
+        acc[priority] = [];
+      }
+      acc[priority].push(report);
+      return acc;
+    }, {});
+    setGroupedReports(grouped);
+  };
+
+  const handleMarkAsOngoing = async (id) => {
     try {
-      const success = await kintsugi_hub_backend.update_priority(id, priority);
+      const success = await kintsugi_hub_backend.update_status(id, 'ongoing');
       if (success) {
-        setReports(reports.map(report => 
-          report.id === id ? { ...report, priority } : report
+        setReports(reports.map(report =>
+          report.id === id ? { ...report, status: 'ongoing' } : report
+        ));
+        groupReportsByPriority(reports.map(report =>
+          report.id === id ? { ...report, status: 'ongoing' } : report
         ));
       }
     } catch (error) {
-      console.error('Error updating priority:', error);
+      console.error('Error marking report as ongoing:', error);
     }
   };
 
-  const handleDeleteReport = async (id) => {
+  const handleMarkAsFinished = async (id) => {
     try {
-      const success = await kintsugi_hub_backend.delete_report(id);
+      const success = await kintsugi_hub_backend.update_status(id, 'finished');
       if (success) {
-        setReports(reports.filter(report => report.id !== id));
-      }
-    } catch (error) {
-      console.error('Error deleting report:', error);
-    }
-  };
-
-  const handleMarkAsResolved = async (id) => {
-    try {
-      const success = await kintsugi_hub_backend.mark_report_as_resolved(id);
-      if (success) {
-        setReports(reports.filter(report => report.id !== id));
-      }
-    } catch (error) {
-      console.error('Error marking report as resolved:', error);
-    }
-  };
-
-  const handleViewDetails = (report) => {
-    setSelectedReport(report);
-    // Implement the logic to open a modal or navigate to a detailed view page
-  };
-
-  const handleEditReport = async (id, updatedData) => {
-    try {
-      const success = await kintsugi_hub_backend.update_report(id, updatedData);
-      if (success) {
-        setReports(reports.map(report => 
-          report.id === id ? { ...report, ...updatedData } : report
+        setReports(reports.map(report =>
+          report.id === id ? { ...report, status: 'finished' } : report
+        ));
+        groupReportsByPriority(reports.map(report =>
+          report.id === id ? { ...report, status: 'finished' } : report
         ));
       }
     } catch (error) {
-      console.error('Error updating report:', error);
+      console.error('Error marking report as finished:', error);
     }
   };
 
   return (
-    <div>
+    <div className="container">
       <h1>Admin Dashboard</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Incident Type</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Location</th>
-            <th>Priority</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reports.map(report => (
-            <tr key={report.id.toString()}>
-              <td>{report.id.toString()}</td>
-              <td>{report.incident_type}</td>
-              <td>{report.description}</td>
-              <td>{report.date}</td>
-              <td>{report.location}</td>
-              <td>
-                <input
-                  type="number"
-                  value={report.priority}
-                  onChange={(e) => handleUpdatePriority(report.id, Number(e.target.value))}
-                />
-              </td>
-              <td>
-                <button onClick={() => handleViewDetails(report)}>View Details</button>
-                <button onClick={() => handleEditReport(report.id, { /* updated data */ })}>Edit</button>
-                <button onClick={() => handleMarkAsResolved(report.id)}>Mark as Resolved</button>
-                <button onClick={() => handleDeleteReport(report.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      {selectedReport && (
-        <div className="modal">
-          {/* Modal content to display the selected report details */}
-          <h2>Report Details</h2>
-          <p>ID: {selectedReport.id.toString()}</p>
-          <p>Incident Type: {selectedReport.incident_type}</p>
-          <p>Description: {selectedReport.description}</p>
-          <p>Date: {selectedReport.date}</p>
-          <p>Location: {selectedReport.location}</p>
-          <p>Priority: {selectedReport.priority}</p>
-          <button onClick={() => setSelectedReport(null)}>Close</button>
+      {Object.keys(groupedReports).map(priority => (
+        <div key={priority}>
+          <h2>Priority {priority}</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Incident Type</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Location</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {groupedReports[priority].map(report => (
+                <tr key={report.id.toString()}>
+                  <td>{report.id.toString()}</td>
+                  <td>{report.incident_type}</td>
+                  <td>{report.description}</td>
+                  <td>{report.date}</td>
+                  <td>{report.location}</td>
+                  <td>{report.status || 'Pending'}</td>
+                  <td>
+                    {report.status !== 'ongoing' && (
+                      <button onClick={() => handleMarkAsOngoing(report.id)}>Mark as Ongoing</button>
+                    )}
+                    {report.status !== 'finished' && (
+                      <button onClick={() => handleMarkAsFinished(report.id)}>Mark as Finished</button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-      )}
+      ))}
     </div>
   );
 };

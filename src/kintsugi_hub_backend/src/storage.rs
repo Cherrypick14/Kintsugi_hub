@@ -37,6 +37,7 @@ pub fn update_report(id: u64, incident_type: String, description: String, date: 
             report.description = description;
             report.date = date;
             report.location = location;
+            report.status = status;
             updated = true;
         }
     });
@@ -54,3 +55,4 @@ pub fn delete_report(id: u64) -> bool {
     });
     deleted
 }
+

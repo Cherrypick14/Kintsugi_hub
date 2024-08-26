@@ -9,4 +9,5 @@ pub struct Report {
     pub description: String,
     pub date: String,
     pub location: String,
+    pub status: Option<String>,
 }
