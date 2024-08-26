@@ -5,7 +5,7 @@ use candid::Nat;
 use crate::storage::REPORTS;
 use crate::storage::{update_report as storage_update_report, delete_report as storage_delete_report};
 use num_traits::ToPrimitive;
-use num_bigint::BigUint;
+// use num_bigint::BigUint;
 
 #[update]
 fn create_report(incident_type: String, description: String, date: String, location: String) -> Nat {
@@ -15,6 +15,7 @@ fn create_report(incident_type: String, description: String, date: String, locat
         description,
         date,
         location,
+        status: None, 
     };
     add_report(report)
 }
@@ -30,10 +31,10 @@ fn fetch_reports_handler() -> Vec<Report> {
 }
 
 #[update]
-fn update_report(id: Nat, incident_type: String, description: String, date: String, location: String) -> Result<(), String> {
+fn update_report(id: Nat, incident_type: String, description: String, date: String, location: String,status: Option<String>) -> Result<(), String> {
     let id_biguint = id.0; // Get the internal representation of Nat
     let id_u64 = id_biguint.to_u64().ok_or("Failed to convert ID")?; // Convert BigUint to u64
-    storage_update_report(id_u64, incident_type, description, date, location);
+    storage_update_report(id_u64, incident_type, description, date, location,status);
     Ok(())
 }
 
@@ -50,13 +51,13 @@ fn delete_report(id: Nat) -> Result<(), String> {
 
 #[update]
 fn update_status(id: Nat, status: String) -> Result<(), String> {
-    let id_biguint = id.0;
+    let id_biguint = id.0.clone();
     let id_u64 = id_biguint.to_u64().ok_or("Failed to convert ID")?;
     
     REPORTS.with(|reports| {
         let mut reports = reports.borrow_mut();
         if let Some(report) = reports.iter_mut().find(|r| r.id == id) {
-            report.status = status;
+            report.status = Some(status);
             Ok(())
         } else {
             Err("Report not found".into())

@@ -17,6 +17,7 @@ fn init() {
         description: "This is a sample report.".to_string(),
         date: "2024-08-14".to_string(),
         location: "Nairobi, Kenya".to_string(),
+        status: None,
     };
 
     add_report(initial_report);

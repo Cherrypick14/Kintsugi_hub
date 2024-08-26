@@ -1,7 +1,7 @@
 use std::cell::RefCell;
 use crate::models::Report;
 use candid::Nat;
-use num_traits::ToPrimitive;
+// use num_traits::ToPrimitive;
 
 
 thread_local! {
@@ -28,7 +28,7 @@ pub fn fetch_reports() -> Vec<Report> {
     REPORTS.with(|reports| reports.borrow().clone())
 }
 
-pub fn update_report(id: u64, incident_type: String, description: String, date: String, location: String) -> bool {
+pub fn update_report(id: u64, incident_type: String, description: String, date: String, location: String, status: Option<String>) -> bool {
     let mut updated = false;
     REPORTS.with(|reports| {
         let mut reports = reports.borrow_mut();
