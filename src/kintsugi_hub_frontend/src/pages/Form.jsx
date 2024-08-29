@@ -1,20 +1,19 @@
+// src/pages/Form.jsx
 import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
-import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend'; // Import your backend declarations
-
+import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
+import { useUser } from '../contexts/UserContext'; // Import the context hook
 import '../styles/styles.css';
 
 const Form = () => {
-  // State to manage success and error messages
-
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  
-  // Define the formik instance
+  const { logout } = useUser(); // Access the logout function
+
   const formik = useFormik({
     initialValues: {
-      id: '', // Assuming this could be auto-generated or filled later
+      id: '',
       incident_type: '',
       description: '',
       date: '',
@@ -28,36 +27,29 @@ const Form = () => {
     }),
     onSubmit: async values => {
       try {
-        const response = await kintsugi_hub_backend.create_report(
+        await kintsugi_hub_backend.create_report(
           values.incident_type,
           values.description,
           values.date,
           values.location
         );
 
-        console.log('Report created with ID:', response.toString());
-
-        // Show success message
         setMessage('Report submitted successfully!');
         setIsSuccess(true);
 
-        // Clear the message after 3 seconds
         setTimeout(() => {
           setMessage('');
           setIsSuccess(false);
         }, 3000);
 
-        // Optionally reset the form or redirect
         formik.resetForm();
-      
+        logout(); // Log out after submission
+
       } catch (error) {
         console.error('Error creating report:', error);
-        
-        // Show error message
         setMessage('Failed to submit report. Please try again.');
         setIsSuccess(false);
 
-        // Clear the error message after 3 seconds
         setTimeout(() => {
           setMessage('');
           setIsSuccess(false);
@@ -71,8 +63,6 @@ const Form = () => {
       <section className="report-section">
         <h1 className="section-title">Kintsugi Incident Form</h1>
         <form className="report-form" id="reportForm" onSubmit={formik.handleSubmit}>
-          
-          {/* Incident Type Field */}
           <div className="form-group">
             <label htmlFor="incident_type">Incident Type:</label>
             <input
@@ -87,8 +77,6 @@ const Form = () => {
               <div className="error">{formik.errors.incident_type}</div>
             ) : null}
           </div>
-
-          {/* Description Field */}
           <div className="form-group">
             <label htmlFor="description">Description:</label>
             <textarea
@@ -102,8 +90,6 @@ const Form = () => {
               <div className="error">{formik.errors.description}</div>
             ) : null}
           </div>
-
-          {/* Date Field */}
           <div className="form-group">
             <label htmlFor="date">Date:</label>
             <input
@@ -118,8 +104,6 @@ const Form = () => {
               <div className="error">{formik.errors.date}</div>
             ) : null}
           </div>
-
-          {/* Location Field */}
           <div className="form-group">
             <label htmlFor="location">Location:</label>
             <input
@@ -134,10 +118,7 @@ const Form = () => {
               <div className="error">{formik.errors.location}</div>
             ) : null}
           </div>
-
           <button type="submit" className="submit-button">Send</button>
-
-          {/* Display success or error message */}
           {message && (
             <div className={`notification ${isSuccess ? 'success' : 'error'}`}>
               {message}

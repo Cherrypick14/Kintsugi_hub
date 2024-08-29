@@ -4,6 +4,7 @@ import { defineConfig } from 'vite';
 import environment from 'vite-plugin-environment';
 import dotenv from 'dotenv';
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import NodeExternals from 'vite-plugin-node-externals';
 
 dotenv.config({ path: '../../.env' });
 
@@ -11,7 +12,7 @@ export default defineConfig({
   build: {
     emptyOutDir: true,
     rollupOptions: {
-      plugins: [nodeResolve()],
+      plugins: [react(), NodeExternals(), nodeResolve()],
     },
   },
   optimizeDeps: {
@@ -20,6 +21,7 @@ export default defineConfig({
         global: "globalThis",
       },
     },
+    include: ['js-sha256'],
   },
   server: {
     proxy: {
@@ -29,7 +31,7 @@ export default defineConfig({
       },
     },
     headers: {
-      'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://identity.ic0.app; object-src 'self';",
+      'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://identity.ic0.app https://esm.run; object-src 'self'; font-src 'self' data: *;",
     },
   },
   plugins: [
@@ -41,9 +43,11 @@ export default defineConfig({
     alias: [
       {
         find: "declarations",
-        replacement: fileURLToPath(
-          new URL("../declarations", import.meta.url)
-        ),
+        replacement: fileURLToPath(new URL("../declarations", import.meta.url)),
+      },
+      {
+        find: 'chart.js/helpers',
+        replacement: 'chart.js/dist/helpers.esm.js',
       },
     ],
   },

@@ -10,7 +10,7 @@ const HeroSection = () => {
       <div className="container">
         <h1>Kintsugi Hub: Empowering Voices, Preserving Dignity</h1>
         <p>We believe you. Your safety and well-being are our top priority. Report with confidence, knowing you're protected every step of the way.</p>
-        {/* <a href="#" id="btn-form" className="button button-primary">Safely Report an Incident</a> */}
+      
          
         <Button  to="/form" className="button-primary">
         Safely Report an Incident

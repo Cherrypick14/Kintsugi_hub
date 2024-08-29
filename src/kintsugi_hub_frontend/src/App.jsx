@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom';
 import Home from './pages/Home';
-import StatisticsSection from './pages/Statistics';
+import Statistics from './pages/Statistics';
 import Form from './pages/Form';
 import Login from './pages/Login';
 // import ProtectedRoute from './components/Protectedroute';
@@ -14,8 +14,9 @@ function App() {
     <Router>
       <Routes>
         {/* Add more routes for other pages */}
-        <Route path='/' element ={<Home />} />
-        <Route path="/statistics" element={<StatisticsSection />} />
+        <Route path="/" element={<Navigate to="/home" />} />
+        <Route path='/home' element={<Home />} />
+        <Route path="/statistics" element={<Statistics />} />
         <Route path='/form' element={<Form />}/>
         <Route path='/login' element={<Login />}/>
         <Route path="/admin" element={<AdminDashboard />} />
