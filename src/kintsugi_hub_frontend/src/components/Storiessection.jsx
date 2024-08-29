@@ -4,7 +4,6 @@ import '../styles/styles.css';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-
 const StoriesSection = () => {
   const settings = {
     dots: true,
@@ -37,7 +36,7 @@ const StoriesSection = () => {
             </div>
             <div className="testimonial-author">
               <img 
-                src="src/kintsugi_hub_frontend/public/images/andrea.jpg"
+                src="/andrea.jpg"
                 alt="Andrea's avatar" 
                 className="testimonial-avatar" 
                 width="50" 
@@ -56,7 +55,7 @@ const StoriesSection = () => {
             </div>
             <div className="testimonial-author">
               <img 
-                src="src/kintsugi_hub_frontend/public/images/brooke-cagle.jpg"
+                src="/brooke-cagle.jpg"
                 alt="Brooke avatar" 
                 className="testimonial-avatar" 
                 width="50" 
@@ -75,7 +74,7 @@ const StoriesSection = () => {
             </div>
             <div className="testimonial-author">
               <img 
-                src="src/kintsugi_hub_frontend/public/images/alexandru.jpg"
+                src="/alexandria.jpg"
                 alt="Alexandria avatar" 
                 className="testimonial-avatar" 
                 width="50" 

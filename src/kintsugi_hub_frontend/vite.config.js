@@ -21,7 +21,7 @@ export default defineConfig({
         global: "globalThis",
       },
     },
-    include: ['js-sha256'],
+    include: ['js-sha256', 'react/jsx-runtime' ],
   },
   server: {
     proxy: {
@@ -49,6 +49,10 @@ export default defineConfig({
         find: 'chart.js/helpers',
         replacement: 'chart.js/dist/helpers.esm.js',
       },
+          {
+        find: 'react/jsx-runtime',
+        replacement: 'react/jsx-runtime.js'
+      }
     ],
   },
 });
