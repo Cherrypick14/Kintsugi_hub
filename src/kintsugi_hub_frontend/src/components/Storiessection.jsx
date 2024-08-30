@@ -74,7 +74,7 @@ const StoriesSection = () => {
             </div>
             <div className="testimonial-author">
               <img 
-                src="/alexandria.jpg"
+                src="/alexandru.jpg"
                 alt="Alexandria avatar" 
                 className="testimonial-avatar" 
                 width="50" 

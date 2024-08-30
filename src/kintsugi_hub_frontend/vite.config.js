@@ -20,8 +20,9 @@ export default defineConfig({
       define: {
         global: "globalThis",
       },
+      // Remove the jsxInject option
     },
-    include: ['js-sha256', 'react/jsx-runtime' ],
+    include: ['js-sha256'],
   },
   server: {
     proxy: {
@@ -30,9 +31,9 @@ export default defineConfig({
         changeOrigin: true,
       },
     },
-    headers: {
-      'Content-Security-Policy': "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://identity.ic0.app https://esm.run; object-src 'self'; font-src 'self' data: *;",
-    },
+    "headers": {
+      "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data: https://cdnjs.cloudflare.com; connect-src 'self' http://127.0.0.1:4943; img-src 'self' data:; object-src 'self';"
+    }
   },
   plugins: [
     react(),
@@ -48,10 +49,6 @@ export default defineConfig({
       {
         find: 'chart.js/helpers',
         replacement: 'chart.js/dist/helpers.esm.js',
-      },
-          {
-        find: 'react/jsx-runtime',
-        replacement: 'react/jsx-runtime.js'
       }
     ],
   },

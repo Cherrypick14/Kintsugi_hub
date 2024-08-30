@@ -8,6 +8,12 @@
   text-align: center;
 }
 
+.statistics-container > h2 {
+   margin-top: 5rem;
+   margin-bottom : 3rem;
+   color: var(--mardi-gras);
+}
+
 .statistics-grid {
   display: flex;
   flex-wrap: wrap;
@@ -16,38 +22,39 @@
 }
 
 .stat-item {
-  flex: 1 1 calc(33.333% - 20px);
+  flex: 1 1 calc(25% - 20px); /* Adjust to make cards smaller */
   background-color: #fff;
-  padding: 20px;
+  padding: 15px; /* Reduce padding */
   border-radius: 8px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
+  box-sizing: border-box;
 }
 
 .stat-icon {
-  font-size: 2em;
+  font-size: 1.5em; /* Reduce icon size */
   color: #861673;
   margin-bottom: 10px;
 }
 
 .stat-item h3 {
   margin: 0;
-  font-size: 2em;
+  font-size: 1.5em; /* Reduce heading size */
   color: #861673;
 }
 
 .stat-item p {
   margin: 10px 0 0;
-  font-size: 1em;
+  font-size: 0.9em; /* Reduce paragraph text size */
   color: #666;
 }
 
 .chart-container {
   margin-top: 40px;
-  height: 400px;
+  height: 350px; /* Adjust height as needed */
 }
 
 .map-container {
   margin-top: 40px;
-  height: 400px;
+  height: 350px; /* Adjust height as needed */
 }

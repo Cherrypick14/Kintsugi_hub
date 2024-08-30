@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
 import '../styles/admin.css'; 
+import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 const AdminDashboard = () => {
   const [reports, setReports] = useState([]);
@@ -65,7 +67,9 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container">
+    <>
+    <Header />
+      <div className="container">
       <h1>Admin Dashboard</h1>
       {Object.keys(groupedReports).map(priority => (
         <div key={priority}>
@@ -106,6 +110,9 @@ const AdminDashboard = () => {
         </div>
       ))}
     </div>
+    <Footer />
+    </>
+   
   );
 };
 

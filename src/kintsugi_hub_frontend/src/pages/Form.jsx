@@ -3,13 +3,13 @@ import React, { useState } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
-import { useUser } from '../contexts/UserContext'; // Import the context hook
 import '../styles/styles.css';
+import Footer from '../components/Footer';
+import Header from '../components/Header';
 
 const Form = () => {
   const [message, setMessage] = useState('');
   const [isSuccess, setIsSuccess] = useState(false);
-  const { logout } = useUser(); // Access the logout function
 
   const formik = useFormik({
     initialValues: {
@@ -42,9 +42,6 @@ const Form = () => {
           setIsSuccess(false);
         }, 3000);
 
-        formik.resetForm();
-        logout(); // Log out after submission
-
       } catch (error) {
         console.error('Error creating report:', error);
         setMessage('Failed to submit report. Please try again.');
@@ -59,7 +56,9 @@ const Form = () => {
   });
 
   return (
-    <div className="container">
+    <>
+    <Header />
+     <div className="container">
       <section className="report-section">
         <h1 className="section-title">Kintsugi Incident Form</h1>
         <form className="report-form" id="reportForm" onSubmit={formik.handleSubmit}>
@@ -127,6 +126,9 @@ const Form = () => {
         </form>
       </section>
     </div>
+    <Footer />
+    </>
+   
   );
 };
 

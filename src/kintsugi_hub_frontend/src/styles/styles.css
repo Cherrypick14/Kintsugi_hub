@@ -281,12 +281,12 @@
     color: var(--black);
   }
 
-  footer {
+  /* footer {
     background-color: var(--mardi-gras);
     color: var(--white);
     text-align: center;
     padding: 2rem 0;
-  }
+  } */
 
   .exit-button {
     background-color: var(--button-blue);

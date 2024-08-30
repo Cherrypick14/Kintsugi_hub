@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { HttpAgent } from '@dfinity/agent';
 import { AuthClient } from '@dfinity/auth-client';
 
+
 const Login = () => {
   const navigate = useNavigate();
 
@@ -22,9 +23,13 @@ const Login = () => {
   };
 
   return (
+    <>
     <div>
       <button onClick={handleLogin}>Login with Internet Identity</button>
     </div>
+    
+    </>
+    
   );
 };
 

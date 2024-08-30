@@ -4,18 +4,19 @@ import { Link, useLocation } from 'react-router-dom';
 import "../styles/styles.css";
 import "../styles/header.css";
 import kintsugi from '/kintsugi.png';
-import { useUser } from '../contexts/UserContext'; // Import the context hook
 
 const Header = () => {
   const location = useLocation();
-  const { isAdmin } = useUser(); // Access the user context
 
   return (
     <nav id="mainNav">
       <div className="container">
         <div className="nav-container">
           <Link to="/" className={`logo ${location.pathname === '/' ? 'active' : ''}`}>
-            <img src={kintsugi} alt="Kintsugi Logo" width="150" height="150" />
+          <div className="logo-image-container">
+              <img src={kintsugi} alt="Kintsugi Logo" />
+            </div>
+            {/* <img src={kintsugi} alt="Kintsugi Logo" width="100" height="300" /> */}
             Kintsugi
           </Link>
           <div className="nav-menu">
@@ -36,7 +37,7 @@ const Header = () => {
                   Statistics
                 </Link>
               </li>
-              {!isAdmin && location.pathname !== '/home' && (
+              
                 <li>
                   <Link 
                     to="/login" 
@@ -45,7 +46,7 @@ const Header = () => {
                     Admin Login
                   </Link>
                 </li>
-              )}
+            
             </ul>
           </div>
         </div>

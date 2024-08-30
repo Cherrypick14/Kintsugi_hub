@@ -1,5 +1,3 @@
-import { useState } from 'react';
-import { kintsugi_hub_backend } from 'declarations/kintsugi_hub_backend';
 import { BrowserRouter as Router, Route, Routes, Navigate  } from 'react-router-dom';
 import Home from './pages/Home';
 import Statistics from './pages/Statistics';

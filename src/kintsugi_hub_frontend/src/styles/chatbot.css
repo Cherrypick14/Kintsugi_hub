@@ -34,7 +34,7 @@
   position: fixed;
   bottom: 90px;
   right: 20px;
-  width: 500px;
+  width: 400px;
   height: 450px;
   background-color: white;
   border-radius: 10px;
@@ -51,6 +51,7 @@
   padding: 10px;
   text-align: center;
   font-weight: bold;
+  font-size: medium;
   display: flex;
   justify-content: space-between;
   align-items: center;
