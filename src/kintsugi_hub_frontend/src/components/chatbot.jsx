@@ -8,7 +8,7 @@ const ChatBot = () => {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   // Initialize Gemini API
-  const genAI = new GoogleGenerativeAI("AIzaSyBqSxj_iG5qBKX8y1L3W3X9lENeyu_BH8A");
+  const genAI = new GoogleGenerativeAI(process.env.REACT_APP_GEMINI_API_KEY);
   const model = genAI.getGenerativeModel({ model: "gemini-pro" });
 
   useEffect(() => {

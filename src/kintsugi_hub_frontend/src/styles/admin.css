@@ -9,6 +9,8 @@
     text-align: center;
     color: #333;
     margin-bottom: 20px;
+    margin-top: 5rem;
+    color: var(--mardi-gras);
   }
   
   h2 {
